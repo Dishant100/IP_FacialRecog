@@ -28,10 +28,13 @@ for root, dirs, files in os.walk(image_dir):
 			#print(label_ids)
 			#y_labels.append(label) # some number
 			#x_train.append(path) # verify this image, turn into a NUMPY arrray, GRAY
-			pil_image = Image.open(path).convert("L") # grayscale
-			size = (550, 550)
-			final_image = pil_image.resize(size, Image.ANTIALIAS)
-			image_array = np.array(final_image, "uint8")
+			image = cv2.imread(path)
+			gray_image = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+
+			final_image = cv2.resize(gray_image,(1280,720))
+
+			image_array = (128-np.mean(final_image)) + final_image
+			image_array = np.uint8(final_image)
 			#print(image_array)
 			faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
 

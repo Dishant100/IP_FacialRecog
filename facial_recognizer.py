@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import pickle
+import datetime
+import time
 
 face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt.xml')
 face_cascade2 = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt2.xml')
@@ -16,6 +18,8 @@ with open("face-labels.pickle", 'rb') as f:
 
 cap = cv2.VideoCapture(0)
 
+present = {}
+
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
@@ -23,14 +27,16 @@ while(True):
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
     faces2 = face_cascade2.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
     faces3 = face_cascade3.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
+
     for (x, y, w, h) in faces:
     	#print(x,y,w,h)
     	roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
+    	roi_gray = (128-np.mean(roi_gray)) + roi_gray
     	roi_color = frame[y:y+h, x:x+w]
 
     	# recognize? deep learned model predict keras tensorflow pytorch scikit learn
     	id_, conf = recognizer.predict(roi_gray)
-    	if conf>=80 :
+    	if conf>=90 and conf<100:
     		#print(5: #id_)
     		#print(labels[id_])
     		font = cv2.FONT_HERSHEY_SIMPLEX
@@ -38,6 +44,10 @@ while(True):
     		color = (255, 255, 255)
     		stroke = 2
     		cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
+    		print(id_,conf)
+    		if name not in present:
+    			present[name]=True
+    			print(present)
 
     	color = (255, 0, 0) #BGR 0-255 
     	stroke = 2
@@ -53,11 +63,12 @@ while(True):
     for (x, y, w, h) in faces2:
         #print(x,y,w,h)
         roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
+        roi_gray = (128-np.mean(roi_gray)) + roi_gray
         roi_color = frame[y:y+h, x:x+w]
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=80 :
+        if conf>=90 and conf<100:
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -66,6 +77,9 @@ while(True):
             stroke = 2
             cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
             print(id_,conf)
+            if name not in present:
+                present[name]=True
+                print(present)
 
         color = (0, 0, 255) #BGR 0-255 
         stroke = 2
@@ -81,11 +95,12 @@ while(True):
     for (x, y, w, h) in faces3:
         #print(x,y,w,h)
         roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
+        roi_gray = (128-np.mean(roi_gray)) + roi_gray
         roi_color = frame[y:y+h, x:x+w]
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=80 :
+        if conf>=90 and conf<100:
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -93,6 +108,10 @@ while(True):
             color = (255, 255, 255)
             stroke = 2
             cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
+            print(id_,conf)
+            if name not in present:
+                present[name]=True
+                print(present)
 
         color = (0, 255, 0) #BGR 0-255 
         stroke = 2
