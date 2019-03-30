@@ -3,17 +3,14 @@ import os
 
 import numpy as np
 
-subjects = ["","Dishant","elvis"]
+subjects = ["","Dishant","elvis","Gabriel"]
 
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-
     face_cascade = cv2.CascadeClassifier('opencv-files/haarcascade_frontalface_default.xml')
 
-
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
-    
     
     if (len(faces) == 0):
         return None, None
@@ -26,9 +23,7 @@ def prepare_training_data(data_folder_path):
     
     dirs = os.listdir(data_folder_path)
     
-    
     faces = []
-    
     labels = []
     
     for dir_name in dirs:
