@@ -33,9 +33,9 @@ for root, dirs, files in os.walk(image_dir):
 
 			final_image = cv2.resize(gray_image,(1280,720))
 
-			image_array = (128-np.mean(final_image)) + final_image
+			final_image = (128-np.median(final_image)) + final_image
 			image_array = np.uint8(final_image)
-			#print(image_array)
+			
 			faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
 
 			for (x,y,w,h) in faces:
@@ -52,3 +52,5 @@ with open("face-labels.pickle", 'wb') as f:
 
 recognizer.train(x_train, np.array(y_labels))
 recognizer.save("face-trainner.yml")
+
+print("Training complete")

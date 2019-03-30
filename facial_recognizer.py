@@ -20,7 +20,9 @@ cap = cv2.VideoCapture(0)
 
 present = {}
 
+print("Smile for the camera")
 while(True):
+
     # Capture frame-by-frame
     ret, frame = cap.read()
     gray  = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -31,12 +33,12 @@ while(True):
     for (x, y, w, h) in faces:
     	#print(x,y,w,h)
     	roi_gray = gray[y:y+h, x:x+w] #(ycord_start, ycord_end)
-    	roi_gray = (128-np.mean(roi_gray)) + roi_gray
+    	#roi_gray = (128-np.median(roi_gray)) + roi_gray
     	roi_color = frame[y:y+h, x:x+w]
 
     	# recognize? deep learned model predict keras tensorflow pytorch scikit learn
     	id_, conf = recognizer.predict(roi_gray)
-    	if conf>=90 and conf<100:
+    	if conf>=80 :
     		#print(5: #id_)
     		#print(labels[id_])
     		font = cv2.FONT_HERSHEY_SIMPLEX
@@ -68,7 +70,7 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=90 and conf<100:
+        if conf>=80 :
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -100,7 +102,7 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=90 and conf<100:
+        if conf>=80 :
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
