@@ -38,7 +38,7 @@ while(True):
 
     	# recognize? deep learned model predict keras tensorflow pytorch scikit learn
     	id_, conf = recognizer.predict(roi_gray)
-    	if conf>=80 :
+    	if conf>=80 and conf<90:
     		#print(5: #id_)
     		#print(labels[id_])
     		font = cv2.FONT_HERSHEY_SIMPLEX
@@ -70,7 +70,7 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=80 :
+        if conf>=80 and conf<90:
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -102,7 +102,7 @@ while(True):
 
         # recognize? deep learned model predict keras tensorflow pytorch scikit learn
         id_, conf = recognizer.predict(roi_gray)
-        if conf>=80 :
+        if conf>=80 and conf<90:
             #print(5: #id_)
             #print(labels[id_])
             font = cv2.FONT_HERSHEY_SIMPLEX
