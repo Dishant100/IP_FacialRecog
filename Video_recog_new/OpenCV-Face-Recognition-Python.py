@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-subjects = ["","Dishant","elvis","Gabriel"]
+subjects = ["","Dishant","elvis","Gabriel","Samreen"]
 
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -94,7 +94,7 @@ print("Predicting images...")
 video_capture = cv2.VideoCapture(0)
 #faceCascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
 
-att = {"Dishant":"a","elvis":"a","Gabriel":"a"}
+att = {"Dishant":"a","elvis":"a","Gabriel":"a","Samreen":"a"}
 
 while True:
     ret, frame = video_capture.read()
@@ -105,20 +105,25 @@ while True:
         label, confidence = face_recognizer.predict(face)
         label_text = subjects[label]+" "+str(round(confidence,2))
 
-        if label==1 and confidence>70:
+        if label==1 and confidence>80:
             att["Dishant"] = 'p'
             print(att)
 
-        if label==2 and confidence>70:
+        if label==2 and confidence>80:
             att["elvis"] = 'p'
             print(att)
 
-        if label==3 and confidence>70:
+        if label==3 and confidence>80:
             att["Gabriel"] = 'p'
+            print(att)
+
+        if label==3 and confidence>80:
+            att["Samreen"] = 'p'
             print(att)
         
         draw_rectangle(frame, rect)
         draw_text(frame, label_text, rect[0], rect[1]-5)
+        cv2.putText(frame, str(att), (10,400), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
 
     cv2.imshow('Video', frame)
 
