@@ -8,9 +8,9 @@ subjects = ["","Dishant","elvis","Gabriel"]
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    face_cascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
+    face_cascade = cv2.CascadeClassifier('opencv-files/haarcascade_frontalface_default.xml')
 
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=4);
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
     
     if (len(faces) == 0):
         return None, None
@@ -94,24 +94,37 @@ print("Predicting images...")
 video_capture = cv2.VideoCapture(0)
 #faceCascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
 
-
+att = {"Dishant":"a","elvis":"a","Gabriel":"a"}
 
 while True:
     ret, frame = video_capture.read()
 
-    img = frame.copy()
-    face, rect = detect_face(img)
+    face, rect = detect_face(frame)
 
     if face is not None:
         label, confidence = face_recognizer.predict(face)
         label_text = subjects[label]+" "+str(round(confidence,2))
-        
-        draw_rectangle(img, rect)
-        draw_text(img, label_text, rect[0], rect[1]-5)
 
-    cv2.imshow('Video', img)
+        if label==1 and confidence>70:
+            att["Dishant"] = 'p'
+            print(att)
+
+        if label==2 and confidence>70:
+            att["elvis"] = 'p'
+            print(att)
+
+        if label==3 and confidence>70:
+            att["Gabriel"] = 'p'
+            print(att)
+        
+        draw_rectangle(frame, rect)
+        draw_text(frame, label_text, rect[0], rect[1]-5)
+
+    cv2.imshow('Video', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+
 print("Prediction complete")
+print(att)
