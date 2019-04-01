@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-subjects = ["","Dishant","elvis","Gabriel","Samreen"]
+subjects = [""]
 
 def detect_face(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -25,23 +25,20 @@ def prepare_training_data(data_folder_path):
     
     faces = []
     labels = []
+    a=0
     
     for dir_name in dirs:
-        
-        if not dir_name.startswith("s"):
-            continue;
+
+        label = a+1
+        a+=1
             
-        label = int(dir_name.replace("s", ""))
-        
         subject_dir_path = data_folder_path + "/" + dir_name
         
         subject_images_names = os.listdir(subject_dir_path)
-        
+
+        subjects.append(dir_name)
         
         for image_name in subject_images_names:
-            
-            if image_name.startswith("."):
-                continue;
             
             image_path = subject_dir_path + "/" + image_name
 
@@ -57,8 +54,6 @@ def prepare_training_data(data_folder_path):
                 faces.append(face)
                 labels.append(label)
             
-    cv2.destroyAllWindows()
-    cv2.waitKey(1)
     cv2.destroyAllWindows()
     
     return faces, labels
@@ -80,21 +75,22 @@ print("Data prepared")
 print("Total faces: ", len(faces))
 print("Total labels: ", len(labels))
 
- 
-
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer.train(faces, np.array(labels))
 
-
-
 print("Predicting images...")
 
-
-
 video_capture = cv2.VideoCapture(0)
-#faceCascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
+faceCascade = cv2.CascadeClassifier('opencv-files/haarcascade_frontalface_default.xml')
 
-att = {"Dishant":"a","elvis":"a","Gabriel":"a","Samreen":"a"}
+ret, frame = video_capture.read()
+img = frame.copy()
+face, rect = detect_face(img)
+confirmation = []
+if face is not None:
+    label, confidence = face_recognizer.predict(face)
+    confirmation.append(subjects[label])
+
 
 while True:
     ret, frame = video_capture.read()
@@ -104,26 +100,17 @@ while True:
     if face is not None:
         label, confidence = face_recognizer.predict(face)
         label_text = subjects[label]+" "+str(round(confidence,2))
+        confirmation.append(subjects[label])
 
-        if label==1 and confidence>80:
-            att["Dishant"] = 'p'
-            print(att)
-
-        if label==2 and confidence>80:
-            att["elvis"] = 'p'
-            print(att)
-
-        if label==3 and confidence>80:
-            att["Gabriel"] = 'p'
-            print(att)
-
-        if label==3 and confidence>80:
-            att["Samreen"] = 'p'
-            print(att)
+        if confirmation[0]==confirmation[-1]:
+            if len(confirmation)==50:
+                print(confirmation[0]+' is Present')
+                confirmation.clear()
+        else:
+            confirmation.clear()
         
         draw_rectangle(frame, rect)
         draw_text(frame, label_text, rect[0], rect[1]-5)
-        cv2.putText(frame, str(att), (10,400), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
 
     cv2.imshow('Video', frame)
 
@@ -132,4 +119,3 @@ while True:
 
 
 print("Prediction complete")
-print(att)
