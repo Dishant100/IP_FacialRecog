@@ -19,19 +19,22 @@ def prepare_training_data(data_folder_path):
     faces = []
     labels = []
     a=0
-    
+    c=1
     for dir_name in dirs:
         label = a+1
         a+=1
         subject_dir_path = data_folder_path + "/" + dir_name
         subject_images_names = os.listdir(subject_dir_path)
         subjects.append(dir_name)
+
         for image_name in subject_images_names:
             image_path = subject_dir_path + "/" + image_name
+            print(c,"/99")
             image = cv2.imread(image_path)
             #cv2.imshow("Training on image...", cv2.resize(image, (400, 500)))
             #cv2.waitKey(2)
             face, rect = detect_face(image)
+            c = c+1
         
             if face is not None:
                 faces.append(face)
