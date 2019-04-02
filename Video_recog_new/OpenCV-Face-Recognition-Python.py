@@ -84,9 +84,11 @@ ret, frame = video_capture.read()
 img = frame.copy()
 face, rect = detect_face(img)
 confirmation = []
+test = []
 if face is not None:
     label, confidence = face_recognizer.predict(face)
     confirmation.append(subjects[label])
+    test.append(subjects[label])
 
 
 while True:
@@ -99,6 +101,7 @@ while True:
         label, confidence = face_recognizer.predict(face)
         label_text = subjects[label]+" "+str(round(confidence,2))
         confirmation.append(subjects[label])
+        test.append(subjects[label])
 
         if confirmation[0]==confirmation[-1]:
             if len(confirmation)==50:
@@ -117,3 +120,12 @@ while True:
 
 
 print("Prediction complete")
+x=0
+y=0
+for item in test:
+    if item=='Gabriel Francis':
+        x+=1
+    else:
+        y+=1
+
+print(x/(x+y))

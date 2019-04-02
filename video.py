@@ -1,4 +1,4 @@
-import cv2
+ import cv2
 import sys
 
 faceCascade = cv2.CascadeClassifier('C:\\Users\\Dishant bhatt\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml')
