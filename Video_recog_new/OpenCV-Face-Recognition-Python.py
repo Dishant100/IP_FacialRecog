@@ -87,6 +87,7 @@ def main():
             if confirmation[0]==confirmation[-1]:
                 if len(confirmation)==50:
                     print(confirmation[0]+' is Present')
+                    cv2.putText(frame, subjects[label]+' is Present.', (10,400), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,0), 2)
                     confirmation.clear()
             else:
                 confirmation.clear()
@@ -94,7 +95,6 @@ def main():
             #if confidence<=50:
             draw_rectangle(frame, rect)
             draw_text(frame, label_text, rect[0], rect[1]-5)
-            cv2.putText(frame, subjects[label]+' is Present.', (10,400), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,0), 2)
 
         cv2.imshow('Attendance Using Facial Recognition', frame)
 
