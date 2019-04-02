@@ -73,7 +73,6 @@ def main():
         confirmation.append(subjects[label])
         test.append(subjects[label])
 
-
     while True:
         ret, frame = video_capture.read()
 
@@ -92,26 +91,14 @@ def main():
             else:
                 confirmation.clear()
             
+            #if confidence<=50:
             draw_rectangle(frame, rect)
             draw_text(frame, label_text, rect[0], rect[1]-5)
 
-        cv2.imshow('Video', frame)
+        cv2.imshow('Attendance Using Facial Recognition', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-        if confirmation[0]==confirmation[-1]:
-            if len(confirmation)==50:
-                print(confirmation[0]+' is Present')
-                confirmation.clear()
-        else:
-            confirmation.clear()
-        
-        if confidence<=50:
-            draw_rectangle(frame, rect)
-            draw_text(frame, label_text, rect[0], rect[1]-5)
-
-    cv2.imshow('Attendance Using Facial Recognition', frame)
 
     print("Prediction complete")
     x=0
