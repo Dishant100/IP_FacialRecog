@@ -94,6 +94,7 @@ def main():
             #if confidence<=50:
             draw_rectangle(frame, rect)
             draw_text(frame, label_text, rect[0], rect[1]-5)
+            cv2.putText(frame, subjects[label]+' is Present.', (10,400), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,0), 2)
 
         cv2.imshow('Attendance Using Facial Recognition', frame)
 
@@ -101,15 +102,15 @@ def main():
             break
 
     print("Prediction complete")
-    x=0
-    y=0
-    for item in test:
-        if item=='Samreen Reyaz':
-            x+=1
-        else:
-            y+=1
+    #x=0
+    #y=0
+    #for item in test:
+        #if item=='Dishant Bhatt':
+            #x+=1
+        #else:
+            #y+=1
 
-    print(x/(x+y))
+    #print(x/(x+y))
 
 if __name__ == '__main__':
     main()
